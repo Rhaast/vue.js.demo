@@ -8,6 +8,8 @@ var ejs = require('ejs');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var goods = require('./routes/goods');
+
 
 var app = express();
 
@@ -25,10 +27,32 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//拦截用户有没有登录，方便进行登录后的其他操作
+app.use(function(req,res,next){
+  if(req.cookies.userId){    //如果cookies里有用户Id，说明已经登陆，可进行其他的操作
+  	 next();
+  }else{     //未登陆时需要进行的判断
+  	 if(req.originalUrl=='/users/login' || req.originalUrl=='/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){    //这是未登陆时可进行的操作白名单
+  	     next();
+  	 }else{    //若是未登录就去执行其他操作，就会发出提示，当前未登录
+  	 	res.json({
+  	 		status:'10001',
+  	 		msg:'当前未登录',
+  	 		result:''
+  	 	});
+  	 }
+
+  }
+
+});
+
 app.use('/', index);
 app.use('/users', users);
+app.use('/goods',goods);
 
-// catch 404 and forward to error handler
+
+
+// catch 404 and forward to error handler，捕获404
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;

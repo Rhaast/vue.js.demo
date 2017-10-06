@@ -22,12 +22,12 @@ var proxyTable = config.dev.proxyTable
 
 var app = express()
 
-var goodsData = require('../mock/goods.json');   //定义请求地址
-var router = express.Router()//定义服务端路由
-router.get("/goods", function (req,res,next) {
-  res.json(goodsData)
-});
-app.use(router);
+// var goodsData = require('../mock/goods.json');   //定义请求地址
+// var router = express.Router()//定义服务端路由
+// router.get("/goods", function (req,res,next) {
+//   res.json(goodsData)
+// });
+// app.use(router);
 
 
 var compiler = webpack(webpackConfig)
