@@ -36,7 +36,7 @@ module.exports = {
       },
       '/users/*':{
           target:'http://localhost:3000'
-      }
+      }  //*通配符表示，前端可以通过代理加载users下面所有的接口
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

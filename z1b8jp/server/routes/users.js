@@ -68,7 +68,7 @@ router.get("/checkLogin",function(req,res,next) {
 		res.json({
 			status:'0',
 			msg:'',
-			result:req.cookies.userName || ''  //登陆成功取到用户名，并将用户名保存到cookies之中如果取不到则为空   
+			result:req.cookies.userName || ''  //登陆成功取到用户名，并将用户名保存到cookies之中如果取不到则为空
 		});
 	}else{
 		res.json({
@@ -77,6 +77,60 @@ router.get("/checkLogin",function(req,res,next) {
 			result:''
 		});
 	}
+
+});
+
+// 查询当前用户的购物车数据,添加商品到购物车页面
+router.get("/cartList",function(req,res,next) {
+	 var userId = req.cookies.userId;
+	 User.findOne({userId:userId},function (err,doc){
+		 if(err){
+			 res.json({
+				 status:'1',
+				 msg:err.message,
+				 result:''
+			 });
+		 }else{
+			 if(doc){
+				 res.json({
+					 status:'0',
+					 msg:'',
+					 result:doc.cartList
+				 });
+			 }
+		 }
+
+	 });
+});
+//购物车删除
+router.get("/users/cartDel",function(req,res,next){
+	var userId = req.cookies.userId,
+	productId = req.body.productId;  //获取cookies里的用户ID和商品ID
+	User.update({
+		userId:userId
+	},{
+		$pull:{
+			'cartList':{
+				'productId':productId      //获取当前选中产品的id
+			}
+		}
+	},function(err,doc){
+		if(err){
+			res.json({
+				status:'1',
+				msg:err.message,
+				result:''
+			});
+		}else{
+			res.json({
+				status:'0',
+				msg:'',
+				result:'suc'
+			});
+
+		}
+
+	});
 
 });
 module.exports = router;
