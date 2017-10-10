@@ -5,6 +5,8 @@ var produtSchema = new Schema({    //定义商品模型的名称，数据类型
     "productId":{type:String},
     "productName":String,
     "salePrice":Number,
+    "checked":String,
+    "productNum":Number,
     "productImage":String
 
 });

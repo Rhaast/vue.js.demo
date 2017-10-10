@@ -81,4 +81,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
     ```
     * 当访问/goods的时候，代理插件会转发到locahost：3000下面的goods，而不是前端的goods
 * 七、启动mongoDB数据库的指令
-    * mongod -storageEngine mmapv1 -dbpath c:\mongoDB\data
+    * mongod -storageEngine mmapv1 -dbpath c:\MongoDB\data
