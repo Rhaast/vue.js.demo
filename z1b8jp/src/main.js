@@ -5,8 +5,10 @@ import App from './App'
 import router from './router'
 import VueLazyload from 'vue-lazyload'   //图片懒加载插件，可提供多种动画效果，可自行设置颜色。需要在dom里使用懒加载标签代替之前的引入图片标签
 import infiniteScroll from 'vue-infinite-scroll'   //图片滚动加载插件，可在npm官网查看具体使用方法
+import {currency} from './util/currency'  //全局过滤器
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
+Vue.filter("currency",currency);
 Vue.use(VueLazyload,{
   loading: 'static/loading-svg/loading-bars.svg',
   try: 3 // default 1

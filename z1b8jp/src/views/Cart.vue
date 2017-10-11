@@ -76,7 +76,7 @@
                   </div>
                 </div>
                 <div class="cart-tab-2">
-                  <div class="item-price">{{item.salePrice}}</div>
+                  <div class="item-price">{{item.salePrice |currency('$')}}</div>
                 </div>
                 <div class="cart-tab-3">
                   <div class="item-quantity">
@@ -90,7 +90,7 @@
                   </div>
                 </div>
                 <div class="cart-tab-4">
-                  <div class="item-price-total">{{item.productNum*item.salePrice}}</div>
+                  <div class="item-price-total">{{item.productNum*item.salePrice | currency('$') }}</div>
                 </div>
                 <div class="cart-tab-5">
                   <div class="cart-item-opration">
@@ -109,8 +109,8 @@
           <div class="cart-foot-inner">
             <div class="cart-foot-l">
               <div class="item-all-check">
-                <a href="javascipt:;">
-                  <span class="checkbox-btn item-check-btn">
+                <a href="javascipt:;" @click="toggleCheckAll">
+                  <span class="checkbox-btn item-check-btn" v-bind:class="{'check':checkAllFlag}">
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
                   </span>
                   <span>Select all</span>
@@ -119,10 +119,10 @@
             </div>
             <div class="cart-foot-r">
               <div class="item-total">
-                Item total: <span class="total-price">500</span>
+                Item total: <span class="total-price">{{totalPrice | currency('$')}}</span>
               </div>
               <div class="btn-wrap">
-                <a class="btn btn--red">Checkout</a>
+                <a class="btn btn--red" v-bind:class="{'btn--dis':checkedCount==0}" @click="checkOut">Checkout</a>
               </div>
             </div>
           </div>
@@ -176,6 +176,7 @@ import NavFooter from '@/components/NavFooter.vue'
 import NavBread from '@/components/NavBread.vue'
 import Modal from '@/components/Modal.vue'
 import axios from 'axios'
+import {currency} from'@/util/currency'
     export default{
         data(){
             return{
@@ -183,13 +184,43 @@ import axios from 'axios'
               productId:'',
               modalConfirm:false,
               overLayFlag:false,
-              delItem:{}
+              delItem:{},
+              checkAllFlag:false
 
             }
         },
         mounted(){
           this.init();
         },      //mounted中初始化this.init()方法，就去渲染了user/cartList这个接口
+        filters:{
+          currency:currency
+
+        },//局部过滤器，可在当前页面调用
+        computed:{
+          checkAllFlag(){
+            return this.checkedCount == this.cartList.length;
+
+          },
+          checkedCount(){     //选中商品数量的计算，用于商品全选功能
+            var i = 0;
+            this.cartList.forEach((item)=>{
+              if(item.checked=='1')i++;
+
+            })
+            return i;
+          },
+          totalPrice(){      //计算选中商品的总价
+            var money = 0;
+            this.cartList.forEach((item)=>{
+              if(item.checked=="1"){
+                 money += parseFloat(item.salePrice)*parseInt(item.productNum);
+              }
+
+            })  
+            return money;
+
+           }
+        },
         components:{
           NavHeader,
           NavFooter,
@@ -226,7 +257,7 @@ import axios from 'axios'
 
             });
           },
-    editCart(flag,item){
+           editCart(flag,item){
                 if(flag=='add'){
                   item.productNum++;
                 }else if(flag=='minu'){
@@ -249,6 +280,21 @@ import axios from 'axios'
                     }
                 })
             },
+            toggleCheckAll(){      //全选
+                 this.checkAllFlag = !this.checkAllFlag;
+                 this.cartList.forEach((item)=>{
+                    item.checked = this.checkAllFlag;
+
+                 })
+                 axios.post("users/editCheckAll",{
+                  checkAll:this.checkAllFlag
+                 }).then((response)=>{
+                    let res = response.data;
+                    if(res.status=='0'){
+                      console.log("updata suc");
+                    }
+                 })
+            }
         }
     }
 </script>
