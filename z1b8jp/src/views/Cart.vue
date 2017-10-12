@@ -294,7 +294,15 @@ import {currency} from'@/util/currency'
                       console.log("updata suc");
                     }
                  })
+            },
+            checkOut(){
+                  if(this.checkedCount>0){
+                      this.$router.push({
+                        path:"/address"
+                      });
+                  }
             }
+
         }
     }
 </script>
