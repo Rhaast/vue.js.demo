@@ -82,3 +82,5 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
     * 当访问/goods的时候，代理插件会转发到locahost：3000下面的goods，而不是前端的goods
 * 七、启动mongoDB数据库的指令
     * mongod -storageEngine mmapv1 -dbpath c:\MongoDB\data
+* 八、使用browser-sync前端调试工具时，可以使用browser-sync start --server --files "css/*.css,*.html" --index "index.html" 
+这条命令增加 --index "index.html"意思是在很多页面中指定index.html页面为起始页
