@@ -216,7 +216,7 @@ import {currency} from'@/util/currency'
                  money += parseFloat(item.salePrice)*parseInt(item.productNum);
               }
 
-            })  
+            })
             return money;
 
            }
@@ -252,6 +252,7 @@ import {currency} from'@/util/currency'
               let res = response.data;
               if(res.status == '0'){
                 this.modalConfirm = false;
+                this.$store.commit("updateCartCount",-this.delItem.productNum);
                 this.init();  //数据重新渲染
               }
 
@@ -275,6 +276,7 @@ import {currency} from'@/util/currency'
                   checked:item.checked
                 }).then((response)=>{
                     let res = response.data;
+                    let num = 0;
                     if(res.status=="0"){
                       this.$store.commit("updateCartCount",flag=="add"?1:-1);
                     }
