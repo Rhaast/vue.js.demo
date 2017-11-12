@@ -59,7 +59,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
       * 2、删除当前数据库：db.dropDatabase()，删除当前集合：db.user.drop()
       * 3、查看当前数据库下的所有数据：db.user.find(),像数据格式化可以写成db.user.find().pretty(),查询第一条数据db.user.findOne()
       * 4、更新当前数据：db.user.update({userName:'jack'},{$set:{userAge:30}})
-      * 5、在命令行中插入整个数据表：mongoimport -d db_demo -c users --file C:\Users\PVer\Desktop\dumall-users，其中db_是数据库的名称，file后面的是文件路径
+      * 5、在命令行中插入整个数据表：mongoimport -d db_demo -c users --file C:\Users\PVer\Desktop\dumall-users，其中db_是数据库的名称，users是集合名称，file后面的是文件路径
 
 * 四、node.js启动调试方式
     * 1、通过node命令启动
@@ -81,4 +81,6 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
     ```
     * 当访问/goods的时候，代理插件会转发到locahost：3000下面的goods，而不是前端的goods
 * 七、启动mongoDB数据库的指令
-    * mongod -storageEngine mmapv1 -dbpath c:\mongoDB\data
+    * mongod -storageEngine mmapv1 -dbpath c:\MongoDB\data
+* 八、使用browser-sync前端调试工具时，可以使用browser-sync start --server --files "css/*.css,*.html" --index "index.html" 
+这条命令增加 --index "index.html"意思是在很多页面中指定index.html页面为起始页

@@ -10,7 +10,7 @@
         <div class="filter-nav">
           <span class="sortby">Sort by:</span>
           <a href="javascript:void(0)" class="default cur">Default</a>
-          <a href="javascript:void(0)" class="price" v-bind:class="{'sort-up':sortFlag}" @click="sortGoods">Price 
+          <a href="javascript:void(0)" class="price" v-bind:class="{'sort-up':sortFlag}" @click="sortGoods">Price
           <svg class="icon icon-arrow-short"><use xlink:href="#icon-arrow-short"></use></svg></a>
           <a href="javascript:void(0)" class="filterby stopPop" @click="showFilterPop">Filter by</a>
         </div>
@@ -37,7 +37,7 @@
                   </div>
                   <div class="main">
                     <div class="name">{{item.productName}}</div>
-                    <div class="price">{{item.salePrice}}</div>
+                    <div class="price">{{item.salePrice | currency('$')}}</div>
                     <div class="btn-area">
                       <a href="javascript:;" class="btn btn--m" @click="addCart(item.productId)">加入购物车</a>
                     </div>
@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-   
+
     <div class="md-overlay" v-show="overLayFlag" @click="closePop"></div>
     <!-- 调用模态框 -->
       <modal v-bind:mdShow="mdShow" v-on:close="closeModal">
@@ -155,7 +155,7 @@ export default {
            mdShow:false,
            mdShowCart:false,
            mdShowCart1:false,
-           mdShowCart2:false   
+           mdShowCart2:false
          }
       },
       components:{
@@ -195,11 +195,11 @@ export default {
                       this.goodsList = res.result.list;
                       this.busy = false;
                     }
-                    
+
                   }else{
                     this.goodsList = [];
                   }
-                  
+
                });
           },
           showFilterPop(){                               //打开侧边栏和遮罩
@@ -238,7 +238,7 @@ export default {
                     var res = res.data;
                     if(res.status==0){
                         this.mdShowCart = true;
-                        this.$store.commit("updateCartCount",1);    //加入购物车
+                        this.$store.commit("updateCartCount",1);    //加入购物车,提交commit，数量加1
                     }else{
                         this.mdShow = true;
                     }

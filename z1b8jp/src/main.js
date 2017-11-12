@@ -3,17 +3,39 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Vuex from 'vuex'
 import VueLazyload from 'vue-lazyload'   //图片懒加载插件，可提供多种动画效果，可自行设置颜色。需要在dom里使用懒加载标签代替之前的引入图片标签
 import infiniteScroll from 'vue-infinite-scroll'   //图片滚动加载插件，可在npm官网查看具体使用方法
+import {currency} from './util/currency'  //全局过滤器
 Vue.use(infiniteScroll)
 Vue.config.productionTip = false
+Vue.filter("currency",currency);
+
+Vue.use(Vuex);
 Vue.use(VueLazyload,{
   loading: 'static/loading-svg/loading-bars.svg',
   try: 3 // default 1
 })
-
+const store = new Vuex.Store({
+  state:{
+    nickName:'',
+    cartCount:0
+  },
+  mutations:{
+    updateUserInfo(state,nickName){
+      state.nickName = nickName;
+    },
+    updateCartCount(state,cartCount){
+      state.cartCount+= cartCount;
+    },
+    initCartCount(state,cartCount){
+      state.cartCount = cartCount;     //购物车数量增加后初始化赋值
+    }
+  }
+});
 new Vue({
     el:'#app',
+    store,
     router,
     template:'<app/>',
     components:{App}
